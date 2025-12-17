@@ -11,7 +11,6 @@ config_version=5
 [application]
 
 config/name="RogueLike"
-run/main_scene="uid://cl2abyri2sf1t"
 config/features=PackedStringArray("4.5", "Mobile")
 config/icon="res://icon.svg"
 
