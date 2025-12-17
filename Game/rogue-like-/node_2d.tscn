@@ -1,0 +1,38 @@
+[gd_scene load_steps=6 format=3 uid="uid://cl2abyri2sf1t"]
+
+[ext_resource type="Shape3D" uid="uid://n51piq8ok1s4" path="res://Level/Resurses/ress/floor.tres" id="1_0e48y"]
+[ext_resource type="Shape3D" uid="uid://c2jyyu5xh20cv" path="res://Level/Resurses/ress/player.tres" id="2_epypp"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_0hol4"]
+
+[sub_resource type="Animation" id="Animation_q6r6c"]
+resource_name = "Idle"
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_kdubu"]
+_data = {
+&"Idle": SubResource("Animation_q6r6c")
+}
+
+[node name="Node3D" type="Node3D"]
+
+[node name="Level" type="Node" parent="."]
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Level"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Level/StaticBody3D"]
+shape = ExtResource("1_0e48y")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Level/StaticBody3D"]
+transform = Transform3D(3, 0, 0, 0, 1, 0, 0, 0, 3, 0, 0, 0)
+mesh = SubResource("BoxMesh_0hol4")
+
+[node name="CharacterBody3D" type="CharacterBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="CharacterBody3D"]
+shape = ExtResource("2_epypp")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="CharacterBody3D"]
+libraries = {
+&"": SubResource("AnimationLibrary_kdubu")
+}
