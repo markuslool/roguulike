@@ -1,49 +1,45 @@
-[gd_scene load_steps=9 format=3 uid="uid://cl2abyri2sf1t"]
+[gd_scene load_steps=8 format=3 uid="uid://cl2abyri2sf1t"]
 
-[ext_resource type="Shape3D" uid="uid://n51piq8ok1s4" path="res://Level/Resurses/ress/floor.tres" id="1_0e48y"]
+[ext_resource type="Script" uid="uid://bakylhn0kiq3p" path="res://Level/Scripts/PlayerController.gd" id="2_0hol4"]
 [ext_resource type="Shape3D" uid="uid://c2jyyu5xh20cv" path="res://Level/Resurses/ress/player.tres" id="2_epypp"]
+[ext_resource type="Material" uid="uid://ckm214nm3j6m5" path="res://Level/Resurses/ress/playerTexture.tres" id="3_0hol4"]
 [ext_resource type="Texture2D" uid="uid://dudwbi3w8h7tb" path="res://Level/Resurses/textures/Test.png" id="3_epypp"]
 
-[sub_resource type="BoxMesh" id="BoxMesh_0hol4"]
-
-[sub_resource type="Animation" id="Animation_q6r6c"]
-resource_name = "Idle"
-
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_kdubu"]
-_data = {
-&"Idle": SubResource("Animation_q6r6c")
-}
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0hol4"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_q6r6c"]
 albedo_texture = ExtResource("3_epypp")
+uv1_scale = Vector3(32, 32, 32)
 
-[sub_resource type="BoxMesh" id="BoxMesh_q6r6c"]
-material = SubResource("StandardMaterial3D_0hol4")
+[sub_resource type="PlaneMesh" id="PlaneMesh_kdubu"]
+material = SubResource("StandardMaterial3D_q6r6c")
+size = Vector2(11, 11)
+
+[sub_resource type="BoxMesh" id="BoxMesh_d21ai"]
+material = ExtResource("3_0hol4")
 
 [node name="Node3D" type="Node3D"]
 
 [node name="Level" type="Node" parent="."]
 
-[node name="StaticBody3D" type="StaticBody3D" parent="Level"]
+[node name="Ground" type="Node" parent="Level"]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Level/StaticBody3D"]
-shape = ExtResource("1_0e48y")
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Level/Ground"]
+transform = Transform3D(3, 0, 0, 0, 1, 0, 0, 0, 3, 0, 0.5, 0)
+mesh = SubResource("PlaneMesh_kdubu")
+skeleton = NodePath("../..")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Level/StaticBody3D"]
-transform = Transform3D(3, 0, 0, 0, 1, 0, 0, 0, 3, 0, 0, 0)
-mesh = SubResource("BoxMesh_0hol4")
+[node name="Torch" type="Node" parent="Level"]
 
 [node name="Player" type="CharacterBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+script = ExtResource("2_0hol4")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Player"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0024414063, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.9975586, 0)
 shape = ExtResource("2_epypp")
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="Player"]
-libraries = {
-&"": SubResource("AnimationLibrary_kdubu")
-}
-
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Player"]
-mesh = SubResource("BoxMesh_q6r6c")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
+mesh = SubResource("BoxMesh_d21ai")
+
+[node name="Camera3D" type="Camera3D" parent="Player"]
+transform = Transform3D(1, 0, 0, 0, 0.49999997, 0.8660254, 0, -0.8660254, 0.49999997, 0, 6, 4)
