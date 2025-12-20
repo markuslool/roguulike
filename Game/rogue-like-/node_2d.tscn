@@ -1,17 +1,27 @@
-[gd_scene load_steps=8 format=3 uid="uid://cl2abyri2sf1t"]
+[gd_scene load_steps=12 format=3 uid="uid://cl2abyri2sf1t"]
 
 [ext_resource type="Script" uid="uid://bakylhn0kiq3p" path="res://Level/Scripts/PlayerController.gd" id="2_0hol4"]
 [ext_resource type="Shape3D" uid="uid://c2jyyu5xh20cv" path="res://Level/Resurses/ress/player.tres" id="2_epypp"]
+[ext_resource type="Material" uid="uid://ciscgs2dqrqmg" path="res://Level/Resurses/ress/Walls.tres" id="2_kdubu"]
+[ext_resource type="SpriteFrames" uid="uid://wem61oduwwiq" path="res://Level/Resurses/ress/torch.tres" id="2_q6r6c"]
 [ext_resource type="Material" uid="uid://ckm214nm3j6m5" path="res://Level/Resurses/ress/playerTexture.tres" id="3_0hol4"]
 [ext_resource type="Texture2D" uid="uid://dudwbi3w8h7tb" path="res://Level/Resurses/textures/Test.png" id="3_epypp"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_q6r6c"]
 albedo_texture = ExtResource("3_epypp")
-uv1_scale = Vector3(32, 32, 32)
+uv1_scale = Vector3(15, 15, 15)
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_kdubu"]
 material = SubResource("StandardMaterial3D_q6r6c")
-size = Vector2(11, 11)
+size = Vector2(5, 5)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_q6r6c"]
+material = ExtResource("2_kdubu")
+size = Vector2(1, 15)
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_kdubu"]
+radius = 0.2
+height = 1.0
 
 [sub_resource type="BoxMesh" id="BoxMesh_d21ai"]
 material = ExtResource("3_0hol4")
@@ -22,23 +32,56 @@ material = ExtResource("3_0hol4")
 
 [node name="Ground" type="Node" parent="Level"]
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Level/Ground"]
-transform = Transform3D(3, 0, 0, 0, 1, 0, 0, 0, 3, 0, 0.5, 0)
+[node name="Ground" type="MeshInstance3D" parent="Level/Ground"]
+transform = Transform3D(3, 0, 0, 0, 1, 0, 0, 0, 3, 0, 0, 0)
 mesh = SubResource("PlaneMesh_kdubu")
 skeleton = NodePath("../..")
 
-[node name="Torch" type="Node" parent="Level"]
+[node name="Wall1" type="MeshInstance3D" parent="Level/Ground"]
+transform = Transform3D(-4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0, 1, 7.5, 0.5, 0)
+mesh = SubResource("PlaneMesh_q6r6c")
+
+[node name="Wall2" type="MeshInstance3D" parent="Level/Ground"]
+transform = Transform3D(-4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0, 1, -7.5, 0.5, 0)
+mesh = SubResource("PlaneMesh_q6r6c")
+
+[node name="Wall3" type="MeshInstance3D" parent="Level/Ground"]
+transform = Transform3D(1.9106855e-15, 4.371139e-08, 1, 1, -4.371139e-08, 0, 4.371139e-08, 1, -4.371139e-08, -3.278354e-07, 0.5, -7.5)
+mesh = SubResource("PlaneMesh_q6r6c")
+
+[node name="Wall4" type="MeshInstance3D" parent="Level/Ground"]
+transform = Transform3D(1.9106855e-15, -4.371139e-08, 1, -1, -4.371139e-08, 0, 4.371139e-08, -1, -4.371139e-08, 3.278354e-07, 0.5, 7.5)
+mesh = SubResource("PlaneMesh_q6r6c")
+
+[node name="Torchs" type="Node" parent="Level"]
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Level/Torchs"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 1, 0)
+
+[node name="Torch1" type="AnimatedSprite3D" parent="Level/Torchs/StaticBody3D"]
+sprite_frames = ExtResource("2_q6r6c")
+
+[node name="Torch2" type="AnimatedSprite3D" parent="Level/Torchs/StaticBody3D"]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0, 0, 0)
+sprite_frames = ExtResource("2_q6r6c")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="Level/Torchs/StaticBody3D"]
+light_color = Color(0.8756017, 0.60177034, 1.1551381e-06, 1)
+light_energy = 10.0
+omni_range = 3.0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Level/Torchs/StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.2, 0)
+shape = SubResource("CapsuleShape3D_kdubu")
 
 [node name="Player" type="CharacterBody3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 script = ExtResource("2_0hol4")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Player"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.9975586, 0)
 shape = ExtResource("2_epypp")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Player"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
 mesh = SubResource("BoxMesh_d21ai")
 
 [node name="Camera3D" type="Camera3D" parent="Player"]
