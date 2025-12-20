@@ -1,0 +1,19 @@
+[configuration]
+; ВАЖНО: Для Rust точка входа называется именно так
+entry_symbol = "gdext_rust_init"
+compatibility_minimum = "4.2"
+
+[libraries]
+; DEBUG (Это то, что вы собрали командой cargo build)
+; Путь должен указывать туда, где лежит .dll после компиляции.
+; Если ваш файл .gdextension лежит в корне проекта Godot, 
+; а папка Rust называется godot_rust_ext, то путь примерно такой:
+
+windows.debug.x86_64 = "res://godot_rust_ext/target/debug/godot_rust_ext.dll"
+linux.debug.x86_64   = "res://godot_rust_ext/target/debug/libgodot_rust_ext.so"
+macos.debug.x86_64   = "res://godot_rust_ext/target/debug/libgodot_rust_ext.dylib"
+
+; RELEASE (Это понадобится, когда будете делать cargo build --release)
+windows.release.x86_64 = "res://godot_rust_ext/target/release/godot_rust_ext.dll"
+linux.release.x86_64   = "res://godot_rust_ext/target/release/libgodot_rust_ext.so"
+macos.release.x86_64   = "res://godot_rust_ext/target/release/libgodot_rust_ext.dylib"
